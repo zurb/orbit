@@ -141,7 +141,7 @@
             if(options.timer) {         	
                 var timerHTML = '<div class="timer"><span class="mask"><span class="rotator"></span></span><span class="pause"></span></div>'
                 orbitWrapper.append(timerHTML);
-                var timer = $('div.timer'),
+                var timer = orbitWrapper.children('div.timer'),
                 	timerRunning;
                 if(timer.length != 0) {
                     var rotator = $('div.timer span.rotator'),
@@ -258,7 +258,7 @@
             if(options.bullets) { 
             	var bulletHTML = '<ul class="orbit-bullets"></ul>';            	
             	orbitWrapper.append(bulletHTML);
-            	var bullets = $('ul.orbit-bullets');
+            	var bullets = orbitWrapper.children('ul.orbit-bullets');
             	for(i=0; i<numberSlides; i++) {
             		var liMarkup = $('<li>'+(i+1)+'</li>');
             		if(options.bulletThumbs) {
@@ -268,7 +268,7 @@
             				liMarkup.css({"background" : "url("+options.bulletThumbLocation+thumbName+") no-repeat"});
             			}
             		} 
-            		$('ul.orbit-bullets').append(liMarkup);
+            		orbitWrapper.children('ul.orbit-bullets').append(liMarkup);
             		liMarkup.data('index',i);
             		liMarkup.click(function() {
             			stopClock();
