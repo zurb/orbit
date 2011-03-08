@@ -1,5 +1,5 @@
 /*
- * jQuery Orbit Plugin 1.2.1
+ * jQuery Orbit Plugin 1.2.2
  * www.ZURB.com/playground
  * Copyright 2010, ZURB
  * Free to use under the MIT license.
@@ -52,7 +52,8 @@
             orbit.add(orbitWidth).width('1px').height('1px');
 	    	            
             //Collect all slides and set slider size of largest image
-            var slides = orbit.find('img, a img, div');
+            var slides = orbit.children('img, a img, div');
+            console.log(slides)
             slides.each(function() {
                 var _slide = $(this),
                 	_slideWidth = _slide.width(),

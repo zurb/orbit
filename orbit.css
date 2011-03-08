@@ -1,4 +1,4 @@
-/* CSS for jQuery Orbit Plugin 1.2.1
+/* CSS for jQuery Orbit Plugin 1.2.s
  * www.ZURB.com/playground
  * Copyright 2010, ZURB
  * Free to use under the MIT license.
@@ -19,7 +19,7 @@ div.orbit {
     position: relative;
     overflow: hidden }
 
-div.orbit img {
+div.orbit>img {
     position: absolute;
     top: 0;
     left: 0;
