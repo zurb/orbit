@@ -1,5 +1,5 @@
 /*
- * jQuery Orbit Plugin 1.2.2
+ * jQuery Orbit Plugin 1.2.3
  * www.ZURB.com/playground
  * Copyright 2010, ZURB
  * Free to use under the MIT license.
@@ -13,8 +13,8 @@
 
         //Defaults to extend options
         var defaults = {  
-            animation: 'fade', 					// fade, horizontal-slide, vertical-slide, horizontal-push
-            animationSpeed: 800, 				// how fast animtions are
+            animation: 'horizontal-push', 		// fade, horizontal-slide, vertical-slide, horizontal-push
+            animationSpeed: 600, 				// how fast animtions are
             timer: true, 						// true or false to have the timer
             advanceSpeed: 4000, 				// if timer is enabled, time between transitions 
             pauseOnHover: false, 				// if you hover pauses the slider
@@ -23,7 +23,7 @@
             directionalNav: true, 				// manual advancing directional navs
             captions: true, 					// do you want captions?
             captionAnimation: 'fade', 			// fade, slideOpen, none
-            captionAnimationSpeed: 800, 		// if so how quickly should they animate in
+            captionAnimationSpeed: 600, 		// if so how quickly should they animate in
             bullets: false,						// true or false to activate the bullet navigation
             bulletThumbs: false,				// thumbnails for the bullets
             bulletThumbLocation: '',			// location from this file where thumbs will be
@@ -52,8 +52,7 @@
             orbit.add(orbitWidth).width('1px').height('1px');
 	    	            
             //Collect all slides and set slider size of largest image
-            var slides = orbit.children('img, a img, div');
-            console.log(slides)
+            var slides = orbit.children('img, a, div');
             slides.each(function() {
                 var _slide = $(this),
                 	_slideWidth = _slide.width(),
@@ -77,6 +76,13 @@
                 locked = true;
             }
             
+            //If there is only a single slide remove nav, timer and bullets
+            if(slides.length == 1) {
+            	options.directionalNav = false;
+            	options.timer = false;
+            	options.bullets = false;
+            }
+            
             //Set initial front photo z-index and fades it in
             slides.eq(activeSlide)
             	.css({"z-index" : 3})
@@ -91,7 +97,7 @@
 
             //Timer Execution
             function startClock() {
-            	if(!options.timer) { 
+            	if(!options.timer  || options.timer == 'false') { 
             		return false;
             	//if timer is hidden, don't need to do crazy calculations
             	} else if(timer.is(':hidden')) {
@@ -124,7 +130,7 @@
 				}
 	        }
 	        function stopClock() {
-	        	if(!options.timer) { return false; } else {
+	        	if(!options.timer || options.timer == 'false') { return false; } else {
 		            timerRunning = false;
 		            clearInterval(clock);
 		            pause.addClass('active');
@@ -188,7 +194,7 @@
 			
 			//Caption Execution
             function setCaption() {
-            	if(!options.captions) {
+            	if(!options.captions || options.captions =="false") {
             		return false; 
             	} else {
 	            	var _captionLocation = slides.eq(activeSlide).data('caption'); //get ID from rel tag on image
@@ -203,10 +209,10 @@
 		             		caption.show();
 		             	}
 		             	if(options.captionAnimation == 'fade') {
-		             		caption.fadeIn();
+		             		caption.fadeIn(options.captionAnimationSpeed);
 		             	}
 		             	if(options.captionAnimation == 'slideOpen') {
-		             		caption.slideDown();
+		             		caption.slideDown(options.captionAnimationSpeed);
 		             	}
 	            	} else {
 	            		//Animations for Caption exits
@@ -214,10 +220,10 @@
 		             		caption.hide();
 		             	}
 		             	if(options.captionAnimation == 'fade') {
-		             		caption.fadeOut();
+		             		caption.fadeOut(options.captionAnimationSpeed);
 		             	}
 		             	if(options.captionAnimation == 'slideOpen') {
-		             		caption.slideUp();
+		             		caption.slideUp(options.captionAnimationSpeed);
 		             	}
 	            	}
 				}
@@ -229,6 +235,7 @@
 
             //DirectionalNav { rightButton --> shift("next"), leftButton --> shift("prev");
             if(options.directionalNav) {
+            	if(options.directionalNav == "false") { return false; }
                 var directionalNavHTML = '<div class="slider-nav"><span class="right">Right</span><span class="left">Left</span></div>';
                 orbitWrapper.append(directionalNavHTML);
                 var leftBtn = orbitWrapper.children('div.slider-nav').children('span.left'),
@@ -297,6 +304,7 @@
                     unlock();
                     options.afterSlideChange.call(this);
                 }
+                if(slides.length == "1") { return false; }
                 if(!locked) {
                     lock();
 					 //deduce the proper activeImage
