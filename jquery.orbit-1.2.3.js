@@ -203,8 +203,7 @@
 						var _captionLocation = slides.eq(activeSlide).attr('data-caption'); //get ID from data-caption tag on image
 
 					}
-	            	console.log('caption location : '+_captionLocation);
-	            		_captionHTML = $(_captionLocation).html(); //get HTML from the matching HTML entity            		
+					_captionHTML = $(_captionLocation).html(); //get HTML from the matching HTML entity            		
 	            	//Set HTML for the caption if it exists
 	            	if(_captionHTML) {
 	            		caption
@@ -404,4 +403,3 @@
         });//each call
     }//orbit plugin call
 })(jQuery);
-        
