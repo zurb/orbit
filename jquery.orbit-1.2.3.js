@@ -406,7 +406,7 @@
                         if(slideDirection == "prev") {
                             slides
                             	.eq(activeSlide)
-                            	.css({"left": orbitHeight, "z-index" : 3})
+                            	.css({"top": orbitHeight, "z-index" : 3})
                             	.animate({"top" : 0}, options.animationSpeed, resetAndUnlock);
 														slides
                             	.eq(prevActiveSlide)
