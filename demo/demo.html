@@ -22,7 +22,7 @@
 	  	
 		<!-- Attach necessary JS -->
 		<script type="text/javascript" src="../jquery-1.5.1.min.js"></script>
-		<script type="text/javascript" src="../jquery.orbit-1.2.3.min.js"></script>	
+		<script type="text/javascript" src="../jquery.orbit-1.2.3.js"></script>	
 		
 			<!--[if IE]>
 			     <style type="text/css">
@@ -34,7 +34,8 @@
 		<!-- Run the plugin -->
 		<script type="text/javascript">
 			$(window).load(function() {
-				$('#featured').orbit();
+				$('#featured').orbit({bullets: true});
+				$('#featured2').orbit({bullets: true});
 			});
 		</script>
 		
@@ -66,7 +67,17 @@ THE ACTUAL ORBIT SLIDER CONTENT
 		<span class="orbit-caption" id="htmlCaption"><strong>I'm A Badass Caption:</strong> I can haz <a href="#">links</a>, <em>style</em> or anything that is valid markup :)</span>
 		
 		
-		
-		</div>	
+		<div id="featured2"> 
+			<div class="content" style="">
+				<h1>Orbit does content now.</h1>
+				<h3>Highlight me...I'm text.</h3>
+			</div>
+			<a href=""><img src="dummy-images/overflow.jpg" /></a>
+			<img src="dummy-images/captions.jpg" data-caption="#htmlCaption" />
+			<img src="dummy-images/features.jpg"  />
+		</div>
+	</div>	
+	
+	
 	</body>
 </html>
