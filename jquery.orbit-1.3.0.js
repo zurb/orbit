@@ -1,5 +1,5 @@
 /*
- * jQuery Orbit Plugin 1.2.3
+ * jQuery Orbit Plugin 1.3.0
  * www.ZURB.com/playground
  * Copyright 2010, ZURB
  * Free to use under the MIT license.
