@@ -257,7 +257,7 @@
     },
     
     setCaption: function () {
-      var captionLocation = this.currentSlide().data('caption');
+      var captionLocation = this.currentSlide().attr('data-caption');
     		
       if (!this.options.captions) {
     		return false; 
@@ -326,7 +326,7 @@
           self = this;
 
   		if (this.options.bulletThumbs) {
-  			thumbName = $(slide).data('thumb');
+  			thumbName = $(slide).attr('data-thumb');
   			if (thumbName) {
   				$li.html('<li class="has-thumb">' + index + '</li>'); // TODO why is the index being added to the li for bullets?
   				$li.css({background: "url(" + this.options.bulletThumbLocation + thumbName + ") no-repeat"});
