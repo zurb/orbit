@@ -43,6 +43,10 @@
     bulletHTML: '<ul class="orbit-bullets"></ul>',
     
     init: function (element, options) {
+      var $imageSlides,
+          imagesLoadedCount = 0,
+          self = this;
+      
       // Bind functions to correct context
       this.clickTimer = $.proxy(this.clickTimer, this);
       this.addBullet = $.proxy(this.addBullet, this);
@@ -61,11 +65,26 @@
       this.$wrapper = this.$element.wrap(this.wrapperHTML).parent();
       this.$slides = this.$element.children('img, a, div');
       
+      $imageSlides = this.$slides.filter('img');
+      
+      if ($imageSlides.length === 0) {
+        this.loaded();
+      } else {
+        $imageSlides.bind('imageready', function () {
+          imagesLoadedCount += 1;
+          if (imagesLoadedCount === $imageSlides.length) {
+            self.loaded();
+          }
+        });
+      }
+    },
+    
+    loaded: function () {
       this.$element
         .addClass('orbit')
         .width('1px')
         .height('1px');
-      
+        
       this.setDimentionsFromLargestSlide();
       this.updateOptionsIfOnlyOneSlide();
       this.setupFirstSlide();
@@ -454,3 +473,53 @@
 
 })(jQuery);
         
+/*!
+ * jQuery imageready Plugin
+ * http://www.zurb.com/playground/
+ *
+ * Copyright 2011, ZURB
+ * Released under the MIT License
+ */
+(function ($) {
+  
+  var options = {};
+  
+  $.event.special.imageready = {
+    
+    setup: function (data, namespaces, eventHandle) {
+      options = data || options;
+    },
+		
+		add: function (handleObj) {
+		  var $this = $(this),
+		      src;
+		      
+	    if ( this.nodeType === 1 && this.tagName.toLowerCase() === 'img' && this.src !== '' ) {
+  			if (options.forceLoad) {
+  			  src = $this.attr('src');
+  			  $this.attr('src', '');
+  			  bindToLoad(this, handleObj.handler);
+          $this.attr('src', src);
+  			} else if ( this.complete || this.readyState === 4 ) {
+          handleObj.handler.apply(this, arguments);
+  			} else {
+  			  bindToLoad(this, handleObj.handler);
+  			}
+  		}
+		},
+		
+		teardown: function (namespaces) {
+		  $(this).unbind('.imageready');
+		}
+	};
+	
+	function bindToLoad(element, callback) {
+	  var $this = $(element);
+
+    $this.bind('load.imageready', function () {
+       callback.apply(element, arguments);
+       $this.unbind('load.imageready');
+     });
+	}
+
+}(jQuery));
