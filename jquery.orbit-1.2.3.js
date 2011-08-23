@@ -197,8 +197,13 @@
             	if(!options.captions || options.captions =="false") {
             		return false; 
             	} else {
-	            	var _captionLocation = slides.eq(activeSlide).data('caption'); //get ID from rel tag on image
-	            		_captionHTML = $(_captionLocation).html(); //get HTML from the matching HTML entity            		
+	            	if($(slides.eq(activeSlide).html()).attr('data-caption') !== undefined) {
+						var _captionLocation = $(slides.eq(activeSlide).html()).attr('data-caption'); //get ID from data-caption tag inside a <a>
+					} else {
+						var _captionLocation = slides.eq(activeSlide).attr('data-caption'); //get ID from data-caption tag on image
+
+					}
+					_captionHTML = $(_captionLocation).html(); //get HTML from the matching HTML entity            		
 	            	//Set HTML for the caption if it exists
 	            	if(_captionHTML) {
 	            		caption
@@ -398,4 +403,3 @@
         });//each call
     }//orbit plugin call
 })(jQuery);
-        
