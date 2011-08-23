@@ -371,7 +371,7 @@
                             	.animate({"top" : 0}, options.animationSpeed, resetAndUnlock);
                         }
                     }
-                    //push-over
+                    //horizontal push-over
                     if(options.animation == "horizontal-push") {
                         if(slideDirection == "next") {
                             slides
@@ -387,9 +387,30 @@
                             	.eq(activeSlide)
                             	.css({"left": -orbitWidth, "z-index" : 3})
                             	.animate({"left" : 0}, options.animationSpeed, resetAndUnlock);
-							slides
+                            slides
                             	.eq(prevActiveSlide)
                             	.animate({"left" : orbitWidth}, options.animationSpeed);
+                        }
+                    }
+                    //vertical push-over
+                    if(options.animation == "vertical-push") {
+                        if(slideDirection == "next") {
+                            slides
+                            	.eq(activeSlide)
+                            	.css({"top": -orbitHeight, "z-index" : 3})
+                            	.animate({"top" : 0}, options.animationSpeed, resetAndUnlock);
+                            slides
+                            	.eq(prevActiveSlide)
+                            	.animate({"top" : orbitHeight}, options.animationSpeed);
+                        }
+                        if(slideDirection == "prev") {
+                            slides
+                            	.eq(activeSlide)
+                            	.css({"top": orbitHeight, "z-index" : 3})
+                            	.animate({"top" : 0}, options.animationSpeed, resetAndUnlock);
+														slides
+                            	.eq(prevActiveSlide)
+                            	.animate({"top" : -orbitHeight}, options.animationSpeed);
                         }
                     }
                     setCaption();
@@ -398,4 +419,3 @@
         });//each call
     }//orbit plugin call
 })(jQuery);
-        
