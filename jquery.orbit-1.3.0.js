@@ -12,7 +12,7 @@
   var ORBIT = {
     
     defaults: {  
-      animation: 'horizontal-push', 		// fade, horizontal-slide, vertical-slide, horizontal-push
+      animation: 'horizontal-push', 		// fade, horizontal-slide, vertical-slide, horizontal-push, vertical-push
       animationSpeed: 600, 				// how fast animtions are
       timer: true, 						// true or false to have the timer
       advanceSpeed: 4000, 				// if timer is enabled, time between transitions 
@@ -437,7 +437,7 @@
           }
         }
         
-        //push-over
+        //horizontal-push
         if (this.options.animation == "horizontal-push") {
           if (slideDirection == "next") {
             this.$slides
@@ -456,6 +456,28 @@
 		        this.$slides
               .eq(this.prevActiveSlide)
               .animate({"left" : this.orbitWidth}, this.options.animationSpeed);
+          }
+        }
+        
+        //vertical-push
+        if (this.options.animation == "vertical-push") {
+          if (slideDirection == "next") {
+            this.$slides
+              .eq(this.activeSlide)
+              .css({top: -this.orbitHeight, "z-index" : 3})
+              .animate({top : 0}, this.options.animationSpeed, this.resetAndUnlock);
+            this.$slides
+              .eq(this.prevActiveSlide)
+              .animate({top : this.orbitHeight}, this.options.animationSpeed);
+          }
+          if (slideDirection == "prev") {
+            this.$slides
+              .eq(this.activeSlide)
+              .css({top: this.orbitHeight, "z-index" : 3})
+              .animate({top : 0}, this.options.animationSpeed, this.resetAndUnlock);
+		        this.$slides
+              .eq(this.prevActiveSlide)
+              .animate({top : -this.orbitHeight}, this.options.animationSpeed);
           }
         }
         
