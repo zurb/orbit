@@ -186,7 +186,7 @@
                      
             //Caption Setup
             if(options.captions) {
-                var captionHTML = '<div class="orbit-caption"></div>';
+                var captionHTML = '<div class="orbit-bullet-wrap"><ul class="orbit-bullets"></ul></div>';
                 orbitWrapper.append(captionHTML);
                 var caption = orbitWrapper.children('.orbit-caption');
             	setCaption();
