@@ -26,7 +26,8 @@
       bullets: false,						// true or false to activate the bullet navigation
       bulletThumbs: false,				// thumbnails for the bullets
       bulletThumbLocation: '',			// location from this file where thumbs will be
-      afterSlideChange: $.noop		// empty function 
+      afterSlideChange: $.noop,		// empty function 
+      centerBullets: true    // center bullet nav with js, turn this off if you want to position the bullet nav manually
  	  },
  	  
  	  activeSlide: 0,
@@ -318,6 +319,7 @@
       this.$bullets = $(this.bulletHTML);
     	this.$wrapper.append(this.$bullets);
     	this.$slides.each(this.addBullet);
+    	if (this.options.centerBullets) this.$bullets.css('margin-left', -this.$bullets.width() / 2);
     },
     
     addBullet: function (index, slide) {
