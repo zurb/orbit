@@ -243,6 +243,19 @@
                 orbitWrapper.append(directionalNavHTML);
                 var leftBtn = orbitWrapper.children('div.slider-nav').children('span.left'),
                 	rightBtn = orbitWrapper.children('div.slider-nav').children('span.right');
+		leftBtn.css('opacity', '0.5');
+		rightBtn.css('opacity', '0.5');
+		leftBtn.hover(function(){
+			leftBtn.fadeTo("fast",1.0);
+		},function(){
+			leftBtn.fadeTo("fast",0.5);
+		});
+		rightBtn.hover(function(){
+			rightBtn.fadeTo("fast",1.0);
+		},function(){
+			rightBtn.fadeTo("fast",0.5);
+		});
+                	
                 leftBtn.click(function() { 
                     stopClock();
                     shift("prev");
