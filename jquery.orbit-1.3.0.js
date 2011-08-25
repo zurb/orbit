@@ -257,16 +257,16 @@
     },
     
     setCaption: function () {
-      var captionLocation = this.currentSlide().attr('data-caption');
+      var captionLocation = this.currentSlide().attr('data-caption'),
+          captionHTML;
     		
       if (!this.options.captions) {
     		return false; 
     	} 
-    	
-    	captionHTML = $(captionLocation).html(); //get HTML from the matching HTML entity
     	        		
     	//Set HTML for the caption if it exists
-    	if (captionHTML) {
+    	if (captionLocation) {
+    	  captionHTML = $(captionLocation).html(); //get HTML from the matching HTML entity
     		this.$caption
       		.attr('id', captionLocation) // Add ID caption TODO why is the id being set?
           .html(captionHTML); // Change HTML in Caption 
