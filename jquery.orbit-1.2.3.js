@@ -193,42 +193,45 @@
             }
 			
 			//Caption Execution
+            //Caption Execution
             function setCaption() {
             	if(!options.captions || options.captions =="false") {
             		return false; 
             	} else {
 	            	var _captionLocation = slides.eq(activeSlide).data('caption'); //get ID from rel tag on image
-	            		_captionHTML = $(_captionLocation).html(); //get HTML from the matching HTML entity            		
-	            	//Set HTML for the caption if it exists
-	            	if(_captionHTML) {
-	            		caption
-		            		.attr('id',_captionLocation) // Add ID caption
-		                	.html(_captionHTML); // Change HTML in Caption 
-		                //Animations for Caption entrances
-		             	if(options.captionAnimation == 'none') {
-		             		caption.show();
-		             	}
-		             	if(options.captionAnimation == 'fade') {
-		             		caption.fadeIn(options.captionAnimationSpeed);
-		             	}
-		             	if(options.captionAnimation == 'slideOpen') {
-		             		caption.slideDown(options.captionAnimationSpeed);
-		             	}
-	            	} else {
-	            		//Animations for Caption exits
-	            		if(options.captionAnimation == 'none') {
-		             		caption.hide();
-		             	}
-		             	if(options.captionAnimation == 'fade') {
-		             		caption.fadeOut(options.captionAnimationSpeed);
-		             	}
-		             	if(options.captionAnimation == 'slideOpen') {
-		             		caption.slideUp(options.captionAnimationSpeed);
-		             	}
+	            		
+	            	if (_captionLocation){
+	            		_captionHTML = $(_captionLocation).html(); //get HTML from the matching HTML entity  
+	            		//Set HTML for the caption if it exists
+		            	if(_captionHTML) {
+		            		caption
+			            		.attr('id',_captionLocation) // Add ID caption
+			                	.html(_captionHTML); // Change HTML in Caption 
+			                //Animations for Caption entrances
+			             	if(options.captionAnimation == 'none') {
+			             		caption.show();
+			             	}
+			             	if(options.captionAnimation == 'fade') {
+			             		caption.fadeIn(options.captionAnimationSpeed);
+			             	}
+			             	if(options.captionAnimation == 'slideOpen') {
+			             		caption.slideDown(options.captionAnimationSpeed);
+			             	}
+		            	} else {
+		            		//Animations for Caption exits
+		            		if(options.captionAnimation == 'none') {
+			             		caption.hide();
+			             	}
+			             	if(options.captionAnimation == 'fade') {
+			             		caption.fadeOut(options.captionAnimationSpeed);
+			             	}
+			             	if(options.captionAnimation == 'slideOpen') {
+			             		caption.slideUp(options.captionAnimationSpeed);
+			             	}
+		            	}
 	            	}
-				}
+		}
             }
-            
 // ==================
 // ! DIRECTIONAL NAV   
 // ==================
