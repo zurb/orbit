@@ -66,6 +66,18 @@
       this.$wrapper = this.$element.wrap(this.wrapperHTML).parent();
       this.$slides = this.$element.children('img, a, div');
       
+      this.$element.bind('orbit.next', function () {
+        self.shift('next');
+      });
+      
+      this.$element.bind('orbit.prev', function () {
+        self.shift('prev');
+      });
+      
+      this.$element.bind('orbit.goto', function (event, index) {
+        self.shift(index);
+      });
+      
       $imageSlides = this.$slides.filter('img');
       
       if ($imageSlides.length === 0) {
@@ -170,7 +182,7 @@
 
     	if (this.$timer.is(':hidden')) {
         this.clock = setInterval(function () {
-		      self.shift("next");  
+          this.$element.trigger('orbit.next');
         }, this.options.advanceSpeed);            		
     	} else {
         this.timerRunning = true;
@@ -195,7 +207,7 @@
         this.$rotator.removeClass('move');
         this.$mask.removeClass('move');
         this.degrees = 0;
-        this.shift("next");
+        this.$element.trigger('orbit.next');
       }
     },
     
@@ -306,12 +318,12 @@
       
       this.$wrapper.find('.left').click(function () { 
         self.stopClock();
-        self.shift("prev");
+        self.$element.trigger('orbit.prev');
       });
       
       this.$wrapper.find('.right').click(function () {
         self.stopClock();
-        self.shift("next")
+        self.$element.trigger('orbit.next');
       });
     },
     
@@ -323,22 +335,24 @@
     },
     
     addBullet: function (index, slide) {
-      var $li = $('<li>' + (index+1) + '</li>'),
+      var position = index + 1,
+          $li = $('<li>' + (position) + '</li>'),
           thumbName,
           self = this;
 
   		if (this.options.bulletThumbs) {
   			thumbName = $(slide).attr('data-thumb');
   			if (thumbName) {
-  				$li.html('<li class="has-thumb">' + index + '</li>'); // TODO why is the index being added to the li for bullets?
-  				$li.css({background: "url(" + this.options.bulletThumbLocation + thumbName + ") no-repeat"});
+          $li
+            .addClass('has-thumb')
+            .css({background: "url(" + this.options.bulletThumbLocation + thumbName + ") no-repeat"});;
   			}
   		}
   		this.$bullets.append($li);
   		$li.data('index', index);
   		$li.click(function () {
   			self.stopClock();
-  			self.shift($li.data('index'));
+  			self.$element.trigger('orbit.goto', [$li.data('index')])
   		});
     },
     
@@ -390,7 +404,7 @@
             slideDirection = "prev"
           }
         }
-        
+
         //set to correct bullet
         this.setActiveBullet();  
              
