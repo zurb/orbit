@@ -305,7 +305,7 @@
                     	.eq(prevActiveSlide)
                     	.css({"z-index" : 1});
                     unlock();
-                    options.afterSlideChange.call(this);
+                    options.afterSlideChange.call(this, slides.eq(prevActiveSlide), slides.eq(activeSlide));
                 }
                 if(slides.length == "1") { return false; }
                 if(!locked) {
