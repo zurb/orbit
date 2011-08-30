@@ -378,7 +378,7 @@
       	.eq(this.prevActiveSlide)
       	.css({"z-index" : 1});
       this.unlock();
-      this.options.afterSlideChange.call(this);
+      this.options.afterSlideChange.call(this, slides.eq(prevActiveSlide), slides.eq(activeSlide));
     },
     
     shift: function (direction) {
