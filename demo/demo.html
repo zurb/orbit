@@ -35,7 +35,11 @@
 		<script type="text/javascript">
 			$(window).load(function() {
 				$('#featured').orbit({bullets: true});
-				$('#featured2').orbit({bullets: true});
+				$('#featured2').orbit({
+					bullets: true,
+					width: 940, 
+					height: 450
+					});
 			});
 		</script>
 		
@@ -66,15 +70,21 @@ THE ACTUAL ORBIT SLIDER CONTENT
 		<!-- Captions for Orbit -->
 		<span class="orbit-caption" id="htmlCaption"><strong>I'm A Badass Caption:</strong> I can haz <a href="#">links</a>, <em>style</em> or anything that is valid markup :)</span>
 		
-		
 		<div id="featured2"> 
 			<div class="content" style="">
-				<h1>Orbit does content now.</h1>
+				<h1>Orbit does ONLY content now.</h1>
 				<h3>Highlight me...I'm text.</h3>
 			</div>
-			<a href=""><img src="dummy-images/overflow.jpg" /></a>
-			<img src="dummy-images/captions.jpg" data-caption="#htmlCaption" />
-			<img src="dummy-images/features.jpg"  />
+			
+			<div class="content" style="">
+				<h1>Orbit does ONLY content now 2.</h1>
+				<h3>Highlight me...I'm text 2.</h3>
+			</div>
+			
+			<div class="content" style="">
+				<h1>Orbit does ONLY content now 3.</h1>
+				<h3>Highlight me...I'm text 3.</h3>
+			</div>
 		</div>
 	</div>	
 	

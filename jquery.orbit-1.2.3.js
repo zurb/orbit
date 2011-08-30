@@ -48,25 +48,34 @@
             
             //Initialize
             var orbit = $(this).addClass('orbit'),         
-            	orbitWrapper = orbit.wrap('<div class="orbit-wrapper" />').parent();
-            orbit.add(orbitWidth).width('1px').height('1px');
+            	orbitWrapper = orbit.wrap('<div class="orbit-wrapper" />').parent(),
+							slides = orbit.children('img, a, div'),
+							numberSlides = slides.length;
+
+						if( options.width && options.height ){
+							orbit.add(orbitWrapper).width(options.width).height(options.height);
+							
+							orbitWidth = orbit.width();
+							orbitHeight = orbit.height();
+						}else{
+							orbit.add(orbitWidth).width('1px').height('1px');
+							
+							//Collect all slides and set slider size of largest image
+	            slides.each(function() {
+								var _slide = $(this),
+								_slideWidth = _slide.width(),
+								_slideHeight = _slide.height();
+								if(_slideWidth > orbit.width()) {
+									orbit.add(orbitWrapper).width(_slideWidth);
+									orbitWidth = orbit.width();	       			
+								}
+								if(_slideHeight > orbit.height()) {
+									orbit.add(orbitWrapper).height(_slideHeight);
+									orbitHeight = orbit.height();
+								}
+	            });
+						}
 	    	            
-            //Collect all slides and set slider size of largest image
-            var slides = orbit.children('img, a, div');
-            slides.each(function() {
-                var _slide = $(this),
-                	_slideWidth = _slide.width(),
-                	_slideHeight = _slide.height();
-                if(_slideWidth > orbit.width()) {
-	                orbit.add(orbitWrapper).width(_slideWidth);
-	                orbitWidth = orbit.width();	       			
-	            }
-	            if(_slideHeight > orbit.height()) {
-	                orbit.add(orbitWrapper).height(_slideHeight);
-	                orbitHeight = orbit.height();
-				}
-                numberSlides++;
-            });
             
             //Animation locking functions
             function unlock() {
