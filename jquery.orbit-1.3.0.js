@@ -78,6 +78,14 @@
         self.shift(index);
       });
       
+      this.$element.bind('orbit.start', function (event, index) {
+        self.startClock();
+      });
+      
+      this.$element.bind('orbit.stop', function (event, index) {
+        self.stopClock();
+      });
+      
       $imageSlides = this.$slides.filter('img');
       
       if ($imageSlides.length === 0) {
