@@ -27,7 +27,8 @@
       bulletThumbs: false,				// thumbnails for the bullets
       bulletThumbLocation: '',			// location from this file where thumbs will be
       afterSlideChange: $.noop,		// empty function 
-      centerBullets: true    // center bullet nav with js, turn this off if you want to position the bullet nav manually
+      centerBullets: true,    // center bullet nav with js, turn this off if you want to position the bullet nav manually
+      randomize: true
  	  },
  	  
  	  activeSlide: 0,
@@ -65,6 +66,10 @@
       this.$element = $(element);
       this.$wrapper = this.$element.wrap(this.wrapperHTML).parent();
       this.$slides = this.$element.children('img, a, div');
+      
+      if (this.options.randomize === true) {
+        this.$slides.sort(function() { return (Math.round(Math.random())-0.5); });
+      }
       
       this.$element.bind('orbit.next', function () {
         self.shift('next');
