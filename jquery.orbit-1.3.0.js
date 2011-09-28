@@ -28,7 +28,7 @@
       bulletThumbLocation: '',			// location from this file where thumbs will be
       afterSlideChange: $.noop,		// empty function 
       centerBullets: true,    // center bullet nav with js, turn this off if you want to position the bullet nav manually
-      randomize: true
+      randomize: false
  	  },
  	  
  	  activeSlide: 0,
