@@ -49,7 +49,7 @@
             //Initialize
             var orbit = $(this).addClass('orbit'),         
             	orbitWrapper = orbit.wrap('<div class="orbit-wrapper" />').parent();
-            orbit.add(orbitWidth).width('1px').height('1px');
+            orbit.add(orbitWrapper).width('1px').height('1px');
 	    	            
             //Collect all slides and set slider size of largest image
             var slides = orbit.children('img, a, div');
