@@ -59,12 +59,16 @@
                 	_slideHeight = _slide.height();
                 if(_slideWidth > orbit.width()) {
 	                orbit.add(orbitWrapper).width(_slideWidth);
-	                orbitWidth = orbit.width();	       			
-	            }
-	            if(_slideHeight > orbit.height()) {
+	              } 
+	              // setting this because orbit width is not always less than slidewidth
+	              // and orbitHeight and width aren't initialized
+	              orbitWidth = orbit.width();	       			
+	              if(_slideHeight > orbit.height()) {
 	                orbit.add(orbitWrapper).height(_slideHeight);
-	                orbitHeight = orbit.height();
-				}
+				        }
+				        // setting this because orbit height is not always less than slideheight
+				        // and orbitHeight and width aren't initialized
+				        orbitHeight = orbit.height();
                 numberSlides++;
             });
             
