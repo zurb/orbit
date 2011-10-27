@@ -21,6 +21,7 @@
             startClockOnMouseOut: false, 		// if clock should start on MouseOut
             startClockOnMouseOutAfter: 1000, 	// how long after MouseOut should the timer start again
             directionalNav: true, 				// manual advancing directional navs
+            keyNav: false, 				// use left / right arrow keys to navigate
             captions: true, 					// do you want captions?
             captionAnimation: 'fade', 			// fade, slideOpen, none
             captionAnimationSpeed: 600, 		// if so how quickly should they animate in
@@ -251,6 +252,17 @@
                     stopClock();
                     shift("next")
                 });
+                if (options.keyNav) {
+                    $(window).keyup(function(event) {
+                        if (event.keyCode == '39') {
+                            stopClock();
+                            shift("next");
+                        } else if (event.keyCode == '37') {
+                            stopClock();
+                            shift("prev");
+                        }
+                    });
+                }
             }
             
 // ==================
