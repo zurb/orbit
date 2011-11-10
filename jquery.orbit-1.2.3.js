@@ -13,21 +13,22 @@
 
         //Defaults to extend options
         var defaults = {  
-            animation: 'horizontal-push', 		// fade, horizontal-slide, vertical-slide, horizontal-push
-            animationSpeed: 600, 				// how fast animtions are
-            timer: true, 						// true or false to have the timer
-            advanceSpeed: 4000, 				// if timer is enabled, time between transitions 
-            pauseOnHover: false, 				// if you hover pauses the slider
-            startClockOnMouseOut: false, 		// if clock should start on MouseOut
-            startClockOnMouseOutAfter: 1000, 	// how long after MouseOut should the timer start again
-            directionalNav: true, 				// manual advancing directional navs
-            captions: true, 					// do you want captions?
-            captionAnimation: 'fade', 			// fade, slideOpen, none
-            captionAnimationSpeed: 600, 		// if so how quickly should they animate in
-            bullets: false,						// true or false to activate the bullet navigation
-            bulletThumbs: false,				// thumbnails for the bullets
-            bulletThumbLocation: '',			// location from this file where thumbs will be
-            afterSlideChange: function(){} 		// empty function 
+            animation: 'horizontal-push',    // fade, horizontal-slide, vertical-slide, horizontal-push
+            easing: false,                   // easing options
+            animationSpeed: 600,             // how fast animtions are
+            timer: true,                     // true or false to have the timer
+            advanceSpeed: 4000,              // if timer is enabled, time between transitions
+            pauseOnHover: false,             // if you hover pauses the slider
+            startClockOnMouseOut: false,     // if clock should start on MouseOut
+            startClockOnMouseOutAfter: 1000, // how long after MouseOut should the timer start again
+            directionalNav: true,            // manual advancing directional navs
+            captions: true,                  // do you want captions?
+            captionAnimation: 'fade',        // fade, slideOpen, none
+            captionAnimationSpeed: 600,      // if so how quickly should they animate in
+            bullets: false,                  // true or false to activate the bullet navigation
+            bulletThumbs: false,             // thumbnails for the bullets
+            bulletThumbLocation: '',         // location from this file where thumbs will be
+            afterSlideChange: function(){}   // empty function
      	};  
         
         //Extend those options
@@ -342,7 +343,7 @@
                         slides
                         	.eq(activeSlide)
                         	.css({"opacity" : 0, "z-index" : 3})
-                        	.animate({"opacity" : 1}, options.animationSpeed, resetAndUnlock);
+                        	.animate({"opacity" : 1}, options.animationSpeed, options.easing, resetAndUnlock);
                     }
                     //horizontal-slide
                     if(options.animation == "horizontal-slide") {
@@ -350,13 +351,13 @@
                             slides
                             	.eq(activeSlide)
                             	.css({"left": orbitWidth, "z-index" : 3})
-                            	.animate({"left" : 0}, options.animationSpeed, resetAndUnlock);
+                            	.animate({"left" : 0}, options.animationSpeed, options.easing, resetAndUnlock);
                         }
                         if(slideDirection == "prev") {
                             slides
                             	.eq(activeSlide)
                             	.css({"left": -orbitWidth, "z-index" : 3})
-                            	.animate({"left" : 0}, options.animationSpeed, resetAndUnlock);
+                            	.animate({"left" : 0}, options.animationSpeed, options.easing, resetAndUnlock);
                         }
                     }
                     //vertical-slide
@@ -365,13 +366,13 @@
                             slides
                             	.eq(activeSlide)
                             	.css({"top": orbitHeight, "z-index" : 3})
-                            	.animate({"top" : 0}, options.animationSpeed, resetAndUnlock);
+                            	.animate({"top" : 0}, options.animationSpeed, options.easing, resetAndUnlock);
                         }
                         if(slideDirection == "next") {
                             slides
                             	.eq(activeSlide)
                             	.css({"top": -orbitHeight, "z-index" : 3})
-                            	.animate({"top" : 0}, options.animationSpeed, resetAndUnlock);
+                            	.animate({"top" : 0}, options.animationSpeed, options.easing, resetAndUnlock);
                         }
                     }
                     //push-over
@@ -380,19 +381,19 @@
                             slides
                             	.eq(activeSlide)
                             	.css({"left": orbitWidth, "z-index" : 3})
-                            	.animate({"left" : 0}, options.animationSpeed, resetAndUnlock);
+                            	.animate({"left" : 0}, options.animationSpeed, options.easing, resetAndUnlock);
                             slides
                             	.eq(prevActiveSlide)
-                            	.animate({"left" : -orbitWidth}, options.animationSpeed);
+                            	.animate({"left" : -orbitWidth}, options.animationSpeed, options.easing);
                         }
                         if(slideDirection == "prev") {
                             slides
                             	.eq(activeSlide)
                             	.css({"left": -orbitWidth, "z-index" : 3})
-                            	.animate({"left" : 0}, options.animationSpeed, resetAndUnlock);
-							slides
+                            	.animate({"left" : 0}, options.animationSpeed, options.easing, resetAndUnlock);
+                            slides
                             	.eq(prevActiveSlide)
-                            	.animate({"left" : orbitWidth}, options.animationSpeed);
+                            	.animate({"left" : orbitWidth}, options.animationSpeed, options.easing);
                         }
                     }
                     setCaption();
