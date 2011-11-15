@@ -21,6 +21,8 @@ our demo gets from this sheet) */
 	text-align: center; 
 	font-size: 22px; 
 	color: #222; }
+	
+.orbit-wrapper { margin-bottom: 100px; }
     
 /*	--------------------------------------------------
 	Global Reset & Standards
