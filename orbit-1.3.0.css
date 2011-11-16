@@ -8,14 +8,14 @@
  
 /* PUT IN YOUR SLIDER ID AND SIZE TO MAKE LOAD BEAUTIFULLY
    ================================================== */
-#featured { 
-	width: 940px;
-	height: 450px;
-	background: #000 url('orbit/loading.gif') no-repeat center center;
+#caseStudies { 
+	width: 1000px;
+	height: 210px;
+	background: #fff url('orbit/loading.gif') no-repeat center center;
 	overflow: hidden; }
-#featured>img,  
-#featured>div,
-#featured>a { display: none; }
+#caseStudies>img,  
+#caseStudies>div,
+#caseStudies>a { display: none; }
 
 
 
@@ -33,12 +33,16 @@ div.orbit {
     height: 1px;
     position: relative;
     overflow: hidden }
+    
+div.orbit.with-bullets {
+    margin-bottom: 40px;
+}
 
 div.orbit>img {
     position: absolute;
     top: 0;
     left: 0;
-    display: none; }
+    /* display: none; */ }
 
 div.orbit>a {
     border: none;
@@ -171,9 +175,9 @@ div.slider-nav span.left {
     position: absolute;
     z-index: 1000;
     list-style: none;
-    bottom: -40px;
+    bottom: -50px;
     left: 50%;
-	margin-left: -50px;
+	  margin-left: -50px;
     padding: 0; }
 
 .orbit-bullets li {
@@ -194,8 +198,28 @@ div.slider-nav span.left {
 .orbit-bullets li.has-thumb {
     background: none;
     width: 100px;
-    height: 75px; }
+    height: 75px; } }
 
 .orbit-bullets li.active.has-thumb {
     background-position: 0 0;
     border-top: 2px solid #000; }
+    
+/* FLUID LAYOUT
+   ================================================== */
+.orbit-wrapper.fluid .orbit .fluid-placeholder {
+    visibility: hidden;
+    position: static;
+    display: block;
+    width: 100%; }
+
+.orbit-wrapper.fluid .orbit, .orbit-wrapper.fluid { 
+    width: 100% !important; }
+
+.orbit-wrapper.fluid .orbit-bullets {
+    position: absolute;
+    z-index: 1000;
+    list-style: none;
+    bottom: -50px;
+    left: 50%;
+    margin-left: -50px;
+    padding: 0; }
