@@ -18,6 +18,10 @@
 		
 		<!-- Attach our CSS -->
 	  	<link rel="stylesheet" href="../orbit-1.3.0.css">
+			<link rel="stylesheet" href="globals.css">
+			<link rel="stylesheet" href="grid.css">
+			<link rel="stylesheet" href="mobile.css">
+			<link rel="stylesheet" href="typography.css">
 	  	<link rel="stylesheet" href="demo-style.css">
 	  	
 		<!-- Attach necessary JS -->
@@ -36,6 +40,7 @@
 			$(window).load(function() {
 				$('#featured').orbit({bullets: true});
 				$('#featured2').orbit({bullets: true});
+				$('#responsive').orbit({bullets: true, fluid: true});
 			});
 		</script>
 		
@@ -43,39 +48,54 @@
 	<body>
 	
 	<div class="container">
-		<h4>ZURB's Orbit Slider</h4>
-		<a href="http://www.zurb.com/playground/orbit-jquery-image-slider">View Docs + Playground for Orbit</a>
-	
-	
-	
-	
-<!-- =======================================
+		<div class="row">
+			<div class="ten columns">
+				<h4>ZURB's Orbit Slider</h4>
+				<a href="http://www.zurb.com/playground/orbit-jquery-image-slider">View Docs + Playground for Orbit</a>
 
-THE ACTUAL ORBIT SLIDER CONTENT 
 
-======================================= -->
-		<div id="featured"> 
-			<div class="content" style="">
-				<h1>Orbit does content now.</h1>
-				<h3>Highlight me...I'm text.</h3>
+				<div id="responsive"> 
+					<div class="content" style="">
+						<h1>Orbit does content now.</h1>
+						<h3>Highlight me...I'm text.</h3>
+					</div>
+					<img src="dummy-images/overflow.jpg" />
+					<img src="dummy-images/captions.jpg" data-caption="#htmlCaption" />
+					<img src="dummy-images/features.jpg"  />
+				</div>
+
+		<!-- =======================================
+
+		THE ACTUAL ORBIT SLIDER CONTENT 
+
+		======================================= -->
+				<div id="featured"> 
+					<div class="content" style="">
+						<h1>Orbit does content now.</h1>
+						<h3>Highlight me...I'm text.</h3>
+					</div>
+					<a href=""><img src="dummy-images/overflow.jpg" /></a>
+					<img src="dummy-images/captions.jpg" data-caption="#htmlCaption" />
+					<img src="dummy-images/features.jpg"  />
+				</div>
+				<!-- Captions for Orbit -->
+				<span class="orbit-caption" id="htmlCaption"><strong>I'm A Badass Caption:</strong> I can haz <a href="#">links</a>, <em>style</em> or anything that is valid markup :)</span>
+
+
+				<div id="featured2"> 
+					<div class="content" style="">
+						<h1>Orbit does content now.</h1>
+						<h3>Highlight me...I'm text.</h3>
+					</div>
+					<a href=""><img src="dummy-images/overflow.jpg" /></a>
+					<img src="dummy-images/captions.jpg" data-caption="#htmlCaption" />
+					<img src="dummy-images/features.jpg"  />
+				</div>
 			</div>
-			<a href=""><img src="dummy-images/overflow.jpg" /></a>
-			<img src="dummy-images/captions.jpg" data-caption="#htmlCaption" />
-			<img src="dummy-images/features.jpg"  />
 		</div>
-		<!-- Captions for Orbit -->
-		<span class="orbit-caption" id="htmlCaption"><strong>I'm A Badass Caption:</strong> I can haz <a href="#">links</a>, <em>style</em> or anything that is valid markup :)</span>
 		
 		
-		<div id="featured2"> 
-			<div class="content" style="">
-				<h1>Orbit does content now.</h1>
-				<h3>Highlight me...I'm text.</h3>
-			</div>
-			<a href=""><img src="dummy-images/overflow.jpg" /></a>
-			<img src="dummy-images/captions.jpg" data-caption="#htmlCaption" />
-			<img src="dummy-images/features.jpg"  />
-		</div>
+		
 	</div>	
 	
 	
