@@ -127,6 +127,8 @@
         this.setupBulletNav();
         this.setActiveBullet();
       }
+
+      this.$element.trigger('orbit.loaded');
     },
     
     currentSlide: function () {
@@ -415,6 +417,8 @@
 
         //set to correct bullet
         this.setActiveBullet();
+        this.$element.trigger('orbit.changed_slide', [this.activeSlide]);
+
              
         //set previous slide z-index to one below what new activeSlide will be
         this.$slides
