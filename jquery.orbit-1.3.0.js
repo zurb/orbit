@@ -27,7 +27,8 @@
       bulletThumbs: false,				// thumbnails for the bullets
       bulletThumbLocation: '',			// location from this file where thumbs will be
       afterSlideChange: $.noop,		// empty function 
-      centerBullets: true    // center bullet nav with js, turn this off if you want to position the bullet nav manually
+      centerBullets: true,    // center bullet nav with js, turn this off if you want to position the bullet nav manually
+      advanceOnClick: false    // if you want the slide to advance if user clicks on it
  	  },
  	  
  	  activeSlide: 0,
@@ -126,6 +127,10 @@
       if (this.options.bullets) {
         this.setupBulletNav();
         this.setActiveBullet();
+      }
+      
+      if (this.options.advanceOnClick) {
+          this.setupAdvanceOnClick();
       }
     },
     
@@ -333,6 +338,14 @@
         self.stopClock();
         self.$element.trigger('orbit.next');
       });
+    },
+    
+    setupAdvanceOnClick: function() {
+        var self = this;
+        $(this.$slides).click(function(evt) {
+            self.stopClock();
+            self.$element.trigger('orbit.next');
+        });
     },
     
     setupBulletNav: function () {
