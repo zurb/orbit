@@ -290,6 +290,7 @@
     	  captionHTML = $(captionLocation).html(); //get HTML from the matching HTML entity
     		this.$caption
       		.attr('id', captionLocation) // Add ID caption TODO why is the id being set?
+      		.hide() // Animate when caption change, not only at the start
           .html(captionHTML); // Change HTML in Caption 
           //Animations for Caption entrances
         switch (this.options.captionAnimation) {
