@@ -345,18 +345,24 @@
             if (e.touches.length == 1 && touch.touching === undefined) {
                 self.stopClock();
                 touch.touching = true;
-                touch.start = e.touches[0].pageX;
+                touch.startX = e.touches[0].pageX;
+                touch.startY = e.touches[0].pageY;
                 touch.deltaX = 0;
+                touch.deltaY = 0;
                 touch.t = new Date();
             }
         }, false);
         this.$wrapper[0].addEventListener('touchmove', function(e) {
-            var active = self.activeSlide, deltaX;
+            var active = self.activeSlide, deltaX, deltaY;
             if (touch.touching) {
+                  
+                deltaX = e.touches[0].pageX - touch.startX;
+                deltaY = e.touches[0].pageY - touch.startY;
+                
+                if (Math.abs(deltaY - touch.deltaY) > Math.abs(deltaX - touch.deltaX)*2) return;
+                
                 e.stopPropagation();
                 e.preventDefault();
-                  
-                deltaX = e.touches[0].pageX - touch.start;
                 
                 if (touch.$active == undefined) touch.$active = self.$slides.eq(active);
                 if (deltaX < 0 && touch.deltaX >= 0) {
@@ -371,6 +377,7 @@
                     touch.otherOffsetX = -self.orbitWidth;
                 }
                 touch.deltaX = deltaX;
+                touch.deltaY = deltaY;
                 touch.$other.css({"left": (touch.otherOffsetX+deltaX)+"px", "z-index": 3});
                 touch.$active.css({"left": deltaX+"px", "z-index" : 3});
             }
@@ -380,16 +387,22 @@
                 var speed = self.options.animationSpeed * (self.orbitWidth - Math.abs(touch.deltaX)) / self.orbitWidth,
                     direction = touch.deltaX > 0 ? 1 : -1;
                 
-                touch.$other.animate({"left": 0}, speed);
-                touch.$active.animate({"left": (direction*self.orbitWidth)+"px"}, speed, function() {
-                    self.prevActiveSlide = self.activeSlide;
-                    self.activeSlide = touch.other;
-                    self.setActiveBullet();
-                    self.setCaption();
-                    self.resetAndUnlock();
+                if (Math.abs(touch.deltaX) < Math.abs(touch.deltaY)) {
+                    touch.$other.css({"z-index": 1});
+                    touch.$active.css({"left": 0});
                     touch = {};
-                });
-                touch.touching = false;
+                } else {
+                    touch.$other.animate({"left": 0}, speed);
+                    touch.$active.animate({"left": (direction*self.orbitWidth)+"px"}, speed, function() {
+                        self.prevActiveSlide = self.activeSlide;
+                        self.activeSlide = touch.other;
+                        self.setActiveBullet();
+                        self.setCaption();
+                        self.resetAndUnlock();
+                        touch = {};
+                    });
+                    touch.touching = false;
+                }
             }
         }, false);  
     },
