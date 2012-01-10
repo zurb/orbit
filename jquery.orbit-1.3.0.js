@@ -13,6 +13,7 @@
     
     defaults: {  
       animation: 'horizontal-push', 		// fade, horizontal-slide, vertical-slide, horizontal-push, vertical-push
+      swipe: false,                      // Enable horizontal swipe gesture between slides
       animationSpeed: 600, 				// how fast animtions are
       timer: true, 						// true or false to have the timer
       advanceSpeed: 4000, 				// if timer is enabled, time between transitions 
@@ -333,6 +334,64 @@
         self.stopClock();
         self.$element.trigger('orbit.next');
       });
+      
+      if (this.options.swipe) this.setupSwipe();
+    },
+    
+    setupSwipe: function() {
+        var self = this, touch = {};
+        if (/(iPad|iPhone|iPod)/i.test(navigator.userAgent) == false) return;
+        this.$wrapper[0].addEventListener('touchstart', function(e) {
+            if (e.touches.length == 1 && touch.touching === undefined) {
+                self.stopClock();
+                touch.touching = true;
+                touch.start = e.touches[0].pageX;
+                touch.deltaX = 0;
+                touch.t = new Date();
+            }
+        }, false);
+        this.$wrapper[0].addEventListener('touchmove', function(e) {
+            var active = self.activeSlide, deltaX;
+            if (touch.touching) {
+                e.stopPropagation();
+                e.preventDefault();
+                  
+                deltaX = e.touches[0].pageX - touch.start;
+                
+                if (touch.$active == undefined) touch.$active = self.$slides.eq(active);
+                if (deltaX < 0 && touch.deltaX >= 0) {
+                    if (touch.$other !== undefined) touch.$other.css({"z-index": 1});
+                    touch.other = active == self.$slides.length - 1 ? 0 : active + 1;
+                    touch.$other = self.$slides.eq(touch.other);
+                    touch.otherOffsetX = self.orbitWidth;
+                } else if (deltaX > 0 && touch.deltaX <= 0) {
+                    if (touch.$other !== undefined) touch.$other.css({"z-index": 1});
+                    touch.other = active == 0 ? self.$slides.length - 1 : active - 1;
+                    touch.$other = self.$slides.eq(touch.other);
+                    touch.otherOffsetX = -self.orbitWidth;
+                }
+                touch.deltaX = deltaX;
+                touch.$other.css({"left": (touch.otherOffsetX+deltaX)+"px", "z-index": 3});
+                touch.$active.css({"left": deltaX+"px", "z-index" : 3});
+            }
+        }, false);
+        this.$wrapper[0].addEventListener('touchend', function(e) {
+            if (touch.touching) {
+                var speed = self.options.animationSpeed * (self.orbitWidth - Math.abs(touch.deltaX)) / self.orbitWidth,
+                    direction = touch.deltaX > 0 ? 1 : -1;
+                
+                touch.$other.animate({"left": 0}, speed);
+                touch.$active.animate({"left": (direction*self.orbitWidth)+"px"}, speed, function() {
+                    self.prevActiveSlide = self.activeSlide;
+                    self.activeSlide = touch.other;
+                    self.setActiveBullet();
+                    self.setCaption();
+                    self.resetAndUnlock();
+                    touch = {};
+                });
+                touch.touching = false;
+            }
+        }, false);  
     },
     
     setupBulletNav: function () {
