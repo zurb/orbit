@@ -359,7 +359,10 @@
                 deltaX = e.touches[0].pageX - touch.startX;
                 deltaY = e.touches[0].pageY - touch.startY;
                 
-                if (Math.abs(deltaY - touch.deltaY) > Math.abs(deltaX - touch.deltaX)*2) return;
+                dx = deltaX - touch.deltaX;
+                dy = deltaY - touch.deltaY;
+                
+                if (Math.abs(dy) > Math.abs(dx)*2) return;
                 
                 e.stopPropagation();
                 e.preventDefault();
@@ -377,6 +380,7 @@
                     touch.otherOffsetX = -self.orbitWidth;
                 }
                 touch.deltaX = deltaX;
+                touch.dx = dx;
                 touch.deltaY = deltaY;
                 touch.$other.css({"left": (touch.otherOffsetX+deltaX)+"px", "z-index": 3});
                 touch.$active.css({"left": deltaX+"px", "z-index" : 3});
@@ -384,13 +388,18 @@
         }, false);
         this.$wrapper[0].addEventListener('touchend', function(e) {
             if (touch.touching) {
-                var speed = self.options.animationSpeed * (self.orbitWidth - Math.abs(touch.deltaX)) / self.orbitWidth,
-                    direction = touch.deltaX > 0 ? 1 : -1;
+                var direction = touch.deltaX > 0 ? 1 : -1,
+                    rollback = direction != (touch.dx / Math.abs(touch.dx));
+                    speed = self.options.animationSpeed * 
+                        (rollback ? Math.abs(touch.deltaX) : self.orbitWidth - Math.abs(touch.deltaX)) / 
+                        self.orbitWidth;
                 
-                if (Math.abs(touch.deltaX) < Math.abs(touch.deltaY)) {
-                    touch.$other.css({"z-index": 1});
-                    touch.$active.css({"left": 0});
-                    touch = {};
+                if (rollback || Math.abs(touch.deltaX) < Math.abs(touch.deltaY)) {
+                    touch.$active.animate({"left": 0}, speed);
+                    touch.$other.animate({"left": touch.otherOffsetX+"px"}, speed, function() {
+                       touch.$other.css({"z-index": 1});
+                       touch = {};
+                    });
                 } else {
                     touch.$other.animate({"left": 0}, speed);
                     touch.$active.animate({"left": (direction*self.orbitWidth)+"px"}, speed, function() {
