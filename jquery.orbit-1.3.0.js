@@ -1,10 +1,11 @@
 /*
- * jQuery Orbit Plugin 1.3.0
- * www.ZURB.com/playground
- * Copyright 2010, ZURB
+ * jQuery Orbit Plugin 1.3.0 adapted and improved by André Dion
+ *
+ * Forked from https://github.com/zurb/orbit
+ *
  * Free to use under the MIT license.
  * http://www.opensource.org/licenses/mit-license.php
-*/
+ */
 
 
 (function( $ ) {
@@ -22,16 +23,20 @@
       startClockOnMouseOut: false,      // if clock should start on MouseOut
       startClockOnMouseOutAfter: 1000,  // how long after MouseOut should the timer start again
       directionalNav: true,             // manual advancing directional navs
+      relativeDirectionalNav: false,    // position directional nav relative to bullets?
       captions: true,                   // do you want captions?
       captionAnimation: 'fade',         // fade, slideOpen, none
       captionAnimationSpeed: 600,       // if so how quickly should they animate in
       bullets: false,                   // true or false to activate the bullet navigation
       bulletThumbs: false,              // thumbnails for the bullets
       bulletThumbLocation: '',          // location from this file where thumbs will be
-      afterSlideChange: $.noop,         // empty function 
       centerBullets: true               // center bullet nav with js, turn this off if you want to position the bullet nav manually
     };
 
+    // apply options
+    this.options = $.extend(true, defaults, options);
+
+    // initialize some instance variables
     this.$element = $(target);
     this.activeSlide = 0;
     this.numberSlides = 0;
@@ -40,14 +45,11 @@
     this.locked = null;
     this.timerRunning = null;
     this.degrees = 0;
-    this.wrapperHTML = '<div class="orbit-wrapper" />';
+    this.wrapperHTML = '<div class="orbit-wrapper"/>';
     this.timerHTML = '<div class="timer"><span class="mask"><span class="rotator"></span></span><span class="pause"></span></div>';
     this.captionHTML = '<div class="orbit-caption"></div>';
     this.directionalNavHTML = '<div class="slider-nav"><span class="right">Right</span><span class="left">Left</span></div>';
-    this.bulletHTML = '<ul class="orbit-bullets"></ul>';
-
-    // apply options
-    this.options = $.extend(true, defaults, options);
+    this.bulletHTML = this.options.relativeDirectionalNav ? '<div class="orbit-bullets"><ul></ul></div>' : '<ul class="orbit-bullets"></ul>';
 
     this._init();
     return this;
@@ -68,38 +70,39 @@
     this.clearClockMouseLeaveTimer = $.proxy(this.clearClockMouseLeaveTimer, this);
     this.rotateTimer = $.proxy(this.rotateTimer, this);
 
-    if (this.options.timer === 'false') this.options.timer = false;
-    if (this.options.captions === 'false') this.options.captions = false;
-    if (this.options.directionalNav === 'false') this.options.directionalNav = false;
+    if( this.options.timer === 'false' ) this.options.timer = false;
+    if( this.options.captions === 'false' ) this.options.captions = false;
+    if( this.options.directionalNav === 'false' ) this.options.directionalNav = false;
 
     this.$wrapper = this.$element.wrap(this.wrapperHTML).parent();
     this.$slides = this.$element.children('img, a, div');
-    
+
     this.$element.bind('orbit.next', function () {
       self.shift('next');
     });
-    
+
     this.$element.bind('orbit.prev', function () {
       self.shift('prev');
     });
-    
+
     this.$element.bind('orbit.goto', function (event, index) {
       self.shift(index);
     });
-    
+
     this.$element.bind('orbit.start', function (event, index) {
       self.startClock();
     });
-    
+
     this.$element.bind('orbit.stop', function (event, index) {
       self.stopClock();
     });
-    
+
     $imageSlides = this.$slides.filter('img');
-    
-    if ($imageSlides.length === 0) {
+
+    if( $imageSlides.length === 0 ) {
       this.loaded();
-    } else {
+    }
+    else {
       $imageSlides.bind('imageready', function () {
         imagesLoadedCount += 1;
         if (imagesLoadedCount === $imageSlides.length) {
@@ -119,23 +122,23 @@
     this.setDimentionsFromLargestSlide();
     this.updateOptionsIfOnlyOneSlide();
     this.setupFirstSlide();
-    
-    if (this.options.timer) {
+
+    if( this.options.timer ) {
       this.setupTimer();
       this.startClock();
     }
-    
-    if (this.options.captions) {
+
+    if( this.options.captions ) {
       this.setupCaptions();
     }
-    
-    if (this.options.directionalNav) {
-      this.setupDirectionalNav();
-    }
-    
-    if (this.options.bullets) {
+
+    if( this.options.bullets ) {
       this.setupBulletNav();
       this.setActiveBullet();
+    }
+
+    if( this.options.directionalNav ) {
+      this.setupDirectionalNav();
     }
   };
 
@@ -346,13 +349,13 @@
   {
     var self = this;
 
-    this.$wrapper.append(this.directionalNavHTML);
-    
+    this[this.options.relativeDirectionalNav ? '$bullets' : '$wrapper'].append(this.directionalNavHTML);
+
     this.$wrapper.find('.left').click(function () { 
       self.stopClock();
       self.$element.trigger('orbit.prev');
     });
-    
+
     this.$wrapper.find('.right').click(function () {
       self.stopClock();
       self.$element.trigger('orbit.next');
@@ -369,20 +372,21 @@
 
   Orbit.prototype.addBullet = function( index, slide )
   {
-    var position = index + 1,
-        $li = $('<li>' + (position) + '</li>'),
-        thumbName,
-        self = this;
+    var position = index + 1
+    , $li = $('<li>' + (position) + '</li>')
+    , thumbName
+    , self = this;
 
-    if (this.options.bulletThumbs) {
+    if( this.options.bulletThumbs ) {
       thumbName = $(slide).attr('data-thumb');
-      if (thumbName) {
+      if( thumbName ) {
         $li
           .addClass('has-thumb')
           .css({background: "url(" + this.options.bulletThumbLocation + thumbName + ") no-repeat"});;
       }
     }
-    this.$bullets.append($li);
+
+    $li.appendTo(this.options.relativeDirectionalNav ? this.$bullets.find('ul') : this.$bullets);
     $li.data('index', index);
     $li.click(function() {
       self.stopClock();
@@ -406,7 +410,8 @@
       .eq(this.prevActiveSlide)
       .css({"z-index" : 1});
     this.unlock();
-    this.options.afterSlideChange.call(this, this.$slides.eq(this.prevActiveSlide), this.$slides.eq(this.activeSlide));
+
+    this.$element.trigger('orbit.afterSlideChange', [this.$slides.eq(this.prevActiveSlide), this.$slides.eq(this.activeSlide)]);
   };
 
   Orbit.prototype.shift = function( direction )
@@ -447,6 +452,8 @@
           slideDirection = "prev";
         }
       }
+
+      this.$element.trigger('orbit.beforeSlideChange', [this.$slides.eq(this.prevActiveSlide), this.$slides.eq(this.activeSlide)]);
 
       // set to correct bullet
       this.setActiveBullet();
