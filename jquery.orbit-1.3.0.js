@@ -340,7 +340,9 @@
     
     setupSwipe: function() {
         var self = this, touch = {};
-        if (/(iPad|iPhone|iPod)/i.test(navigator.userAgent) == false) return;
+        if (/(iPad|iPhone|iPod)/i.test(navigator.userAgent) == false 
+            || this.$slides.length < 2) return;
+        
         this.$wrapper[0].addEventListener('touchstart', function(e) {
             if (e.touches.length == 1 && touch.touching === undefined) {
                 self.stopClock();
