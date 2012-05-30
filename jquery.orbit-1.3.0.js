@@ -150,8 +150,8 @@
       
       this.$slides.each(function () {
         var slide = $(this),
-            slideWidth = slide.width(),
-            slideHeight = slide.height();
+            slideWidth = options.width || slide.width(),
+            slideHeight = options.height || slide.height();
 
         if (slideWidth > self.$element.width()) {
           self.$element.add(self.$wrapper).width(slideWidth);
