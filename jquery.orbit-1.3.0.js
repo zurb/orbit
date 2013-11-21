@@ -110,7 +110,7 @@
         .addClass('orbit')
         .css({width: '1px', height: '1px'});
         
-      this.setDimentionsFromLargestSlide();
+      this.setDimensionsFromLargestSlide();
       this.updateOptionsIfOnlyOneSlide();
       this.setupFirstSlide();
       
@@ -137,7 +137,7 @@
       return this.$slides.eq(this.activeSlide);
     },
     
-    setDimentionsFromLargestSlide: function () {
+    setDimensionsFromLargestSlide: function () {
       //Collect all slides and set slider size of largest image
       var self = this,
           $fluidPlaceholder;
